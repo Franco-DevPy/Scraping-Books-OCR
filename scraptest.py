@@ -53,15 +53,15 @@ infos_product = table_info.find_all('tr')
 rating = soup.select_one('p', class_ = 'star-rating One') 
 
 match rating :
-    case 'star-rating One':
+    case ('star-rating One'):
         print('Rating is 1/5')
-    case 'star-rating Two':
+    case ('star-rating Two'):
         print('Rating is 1/5')
-    case 'star-rating Three':
+    case ('star-rating Three'):
         print('Rating is 1/5')
-    case 'star-rating Four':
+    case ('star-rating Four'):
         print('Rating is 1/5')
-    case 'star-rating Five':
+    case ('star-rating Five'):
         print('Rating is 1/5')
     case _:
         print('Not rating')  
