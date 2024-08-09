@@ -25,42 +25,55 @@ soup = BeautifulSoup(html_reponse, "html.parser")
 
 #On utiliser le methode find() pour trouver les etiquette html
 
-Title_Book = soup.find('h1')
-print(Title_Book.text)
+title_Book = soup.find('h1')
+
+title_final = title_Book.get_text()
+#print(Title_Book.text)
 
 #On utilise select pour trover l'element correct a l'interieur d'un element avec classe
-description_book = soup.select('article.product_page > p')
+description_book = soup.select_one('article.product_page > p')
 
-print(type(description_book))
-
-
-
-img_book = soup.select_one('div.product_main > p.instock')
-
-stock = soup.select_one('p', class_ = "instock availability")
+description_text = description_book.get_text(strip=True)
+#print(type(description_book))
 
 
 
-if stock :
-    print(stock.get_text(strip=True))
-else :
-    print("Stock Indisponible")
 
-table_info = soup.select_one('table.table')
 
-infos_product = table_info.find_all('tr')
+def find_img():
+    img_book = soup.select_one('#product_gallery img')
+    if img_book is not None :
+        img_src = img_book.get('src')
+        return img_src
+    else :
+        return 'Image indisponible' 
+        
 
+img_find = find_img()        
+#.get('attribute')
+
+#Recuperation du stock
+def find_stock():
+    stock = soup.select_one('div.product_main > p.instock')
+    if stock is not None :
+        stock_final = stock.get_text(strip=True)
+        return stock_final
+    else :
+        return "Stock Indisponible"
+    
+    
+final_stock = find_stock()
+    
 
 def findRating():
-
-    rating = soup.select_one('p', class_ = 'star-rating One') 
-    
+    rating = soup.select_one('p.star-rating') 
+    # Verifica si el elemento existe
+    if rating is None:
+        return 'No hay rating'
+        
     rating_class = rating.get('class')
-    
 # rating_class será una lista como ['star-rating', 'One']
-    print("Clases recuperadas:", rating_class)
-    
-    
+#   print("Clases recuperadas:", rating_class)
     match rating_class :
          case ['star-rating', 'One']:
              return 'Rating is 1/5'
@@ -75,25 +88,44 @@ def findRating():
         
          case _:
                return'Not rating'
-    return rating_class 
+           
 
-  
 final_rating = findRating()
 
-        
-with open('infos.csv', 'w') as file:
-   for row in infos_product:
-    detail_title = row.find('th')
-    detail_info = row.find('td')
+
+#objeto tag
+table_info = soup.find('table', class_="table")
+
+#lista de objetos
+infos_product = table_info.find_all('tr')
+
+
+def table_info():
+for row in infos_product:
+    info_title = row.find('th')
+    info_detail = row.find('td')
+    print(f'{info_title.get_text(strip=True)} :  {info_detail.get_text(strip=True)}')   
     
-    if detail_title and detail_info:
-        file.write("\n" + Title_Book.get_text(strip=True))
-        file.write("\n" + description_book[0].get_text(strip=True))
+
+
+
+
+print('\n' + '\n' + '\n' + '\n' +  title_final)
+print('\n' + final_rating)
+print('\n' + description_text)
+print('\n' + final_stock + '\n')
+
+print(str(img_find))
+
+
+with open('infos.csv', 'w') as file:
+    if soup:
+        file.write("\n" + title_final.get_text(strip=True))
         file.write("\n" + final_rating)  
-        file.write("\n" + stock.get_text(strip=True))
+        file.write("\n" + final_stock.get_text(strip=True))
+        file.write("\n" + description_book[0].get_text(strip=True))
         file.write("\n" + "Product Information : ")
         file.write('\n' + "Espec is : " + detail_title.get_text(strip=True) + " : " + detail_info.get_text(strip=True))
-        print('\n' "Espec is : " + detail_title.get_text(strip=True) + " : " + detail_info.get_text(strip=True))
     else:
         file.write("Pas de detail")
 

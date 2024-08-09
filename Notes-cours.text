@@ -1,0 +1,52 @@
++-------------------+-----------------------------+-------------------------------+--------------------------------------------------------+-----------------------------------------------------------+
+| Método            | Recupera                    | Transformación a texto        | Métodos adicionales                                     | Ejemplo de uso                                            |
++-------------------+-----------------------------+-------------------------------+--------------------------------------------------------+-----------------------------------------------------------+
+| .find(tag)        | Objeto Tag                  | .get_text()                   | .find(), .find_all(), .parent, .children                | soup.find('h1').get_text()                                |
+| .find_all(tag)    | Lista de objetos Tag        | [tag.get_text() for tag in ...| .find(), .find_all(), .parent, .children, .next_sibling | [tag.get_text() for tag in soup.find_all('p')]            |
+| .select(css)      | Lista de objetos Tag        | [tag.get_text() for tag in ...| .select_one(), .select(), .find(), .find_all()          | [tag.get_text() for tag in soup.select('div > p')]        |
+| .select_one(css)  | Objeto Tag                  | .get_text()                   | .select(), .find(), .find_all(), .parent                | soup.select_one('p.star-rating').get_text()               |
+| .get('attribute') | Valor del atributo (cadena) | No necesita transformación    | .get(), .attrs                                          | soup.find('a').get('href')                                |
+| .text             | Texto contenido (cadena)    | No necesita transformación    | .get_text(), .string, .stripped_strings                 | soup.find('p').text                                       |
+| .contents         | Lista de objetos Tag        | [str(item) for item in ...]   | .children, .descendants, .find_all()                    | [str(item) for item in soup.find('div').contents]         |
+| .parent           | Objeto Tag                  | .get_text()                   | .parent, .find(), .find_all(), .next_sibling            | soup.find('p').parent.get_text()                          |
+| .children         | Generador de objetos Tag    | [tag.get_text() for tag in ...| .contents, .find(), .find_all(), .descendants           | [child.get_text() for child in soup.find('div').children] |
++-------------------+-----------------------------+-------------------------------+--------------------------------------------------------+-----------------------------------------------------------+
+
+
+Tipos de Resultados en BeautifulSoup
+
+Objeto Tag:
+
+Qué es: Un Tag representa un solo elemento HTML, como <div>, <p>, <a>, etc.
+Cuándo lo obtienes: Cuando usas métodos como find o select_one, que están diseñados para encontrar solo el primer elemento que coincide con tus criterios.
+Qué puedes hacer con él: Puedes acceder a sus atributos, contenido de texto, y anidar más búsquedas dentro del mismo elemento.
+Lista de Objetos Tag (ResultSet):
+
+Qué es: Una lista que contiene múltiples objetos Tag, que representan varios elementos HTML que coinciden con tus criterios.
+Cuándo lo obtienes: Cuando usas métodos como find_all o select, que están diseñados para encontrar todos los elementos que coinciden con tus criterios.
+Qué puedes hacer con ella: Puedes iterar sobre la lista para procesar cada Tag individualmente, o acceder directamente a un elemento de la lista usando índices.
+
+
+
+¡Excelente pregunta! En BeautifulSoup, los métodos que usas para buscar elementos HTML pueden devolver diferentes tipos de objetos, dependiendo de cómo los uses. Vamos a desglosar esto para que quede claro.
+
+Tipos de Resultados en BeautifulSoup
+Objeto Tag:
+
+Qué es: Un Tag representa un solo elemento HTML, como <div>, <p>, <a>, etc.
+Cuándo lo obtienes: Cuando usas métodos como find o select_one, que están diseñados para encontrar solo el primer elemento que coincide con tus criterios.
+Qué puedes hacer con él: Puedes acceder a sus atributos, contenido de texto, y anidar más búsquedas dentro del mismo elemento.
+Lista de Objetos Tag (ResultSet):
+
+Qué es: Una lista que contiene múltiples objetos Tag, que representan varios elementos HTML que coinciden con tus criterios.
+Cuándo lo obtienes: Cuando usas métodos como find_all o select, que están diseñados para encontrar todos los elementos que coinciden con tus criterios.
+Qué puedes hacer con ella: Puedes iterar sobre la lista para procesar cada Tag individualmente, o acceder directamente a un elemento de la lista usando índices.
+
+
+
+Método            | Devuelve           | Ejemplo de Uso                                   | Acceso a Contenido                           
+-------------------|--------------------|--------------------------------------------------|----------------------------------------------
+find               | Objeto Tag         | element = soup.find('h1')                        | element.get_text(), element['class']         
+select_one         | Objeto Tag         | element = soup.select_one('p.intro')             | element.get_text(), element['class']         
+find_all           | Lista de Tag       | elements = soup.find_all('p')                    | elements[0].get_text(), iterar sobre lista   
+select             | Lista de Tag       | elements = soup.select('div > p')                | elements[0].get_text(), iterar sobre lista   
