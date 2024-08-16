@@ -1,59 +1,38 @@
+#SCRAP SINGLE PAG 
+
 from bs4 import BeautifulSoup
 import requests
 import csv
 
 
-# Versiones
-import bs4 # Solo para el chequeo
-print("Versión de BeautifulSoup:",bs4.__version__)
-print("Versión de requests:", requests.__version__)
-
-
-# Empezamos el scraping
-
-# 1. Obtener el HTML
-
-URL_BASE = 'https://books.toscrape.com/catalogue/psycho-sanitarium-psycho-15_628/index.html'
+"""
+URL_BASE = "https://books.toscrape.com/catalogue/tipping-the-velvet_999/index.html"
 reponse = requests.get(URL_BASE)
 html_reponse = reponse.text
 
-# "Parsear" le HTML
 soup = BeautifulSoup(html_reponse, "html.parser")
-
-#Print all HTML 
-#--------------print(soup)
-
-#On utiliser le methode find() pour trouver les etiquette html
-
-title_Book = soup.find('h1')
-
-title_final = title_Book.get_text()
-#print(Title_Book.text)
-
-#On utilise select pour trover l'element correct a l'interieur d'un element avec classe
-description_book = soup.select_one('article.product_page > p')
-
-description_text = description_book.get_text(strip=True)
-#print(type(description_book))
+"""
 
 
+def find_title(soup):
+        title= soup.find('h1')
+        title_Book  = title.get_text()
+        if title is not None:
+            return title_Book 
+        else:
+            return 'Not Title'
 
 
+def find_category(soup):
+        category = soup.select('ul.breadcrumb li')[2]
+        if category is not None:
+            return category.get_text(strip=True)
+        else:
+            return 'Not Category Book'
+       
+    
 
-def find_img():
-    img_book = soup.select_one('#product_gallery img')
-    if img_book is not None :
-        img_src = img_book.get('src')
-        return img_src
-    else :
-        return 'Image indisponible' 
-        
-
-img_find = find_img()        
-#.get('attribute')
-
-#Recuperation du stock
-def find_stock():
+def find_stock(soup):
     stock = soup.select_one('div.product_main > p.instock')
     if stock is not None :
         stock_final = stock.get_text(strip=True)
@@ -62,93 +41,147 @@ def find_stock():
         return "Stock Indisponible"
     
     
-final_stock = find_stock()
     
 
-def findRating():
+def findRating(soup):
     rating = soup.select_one('p.star-rating') 
     # Verifica si el elemento existe
     if rating is None:
         return 'No hay rating'
-        
-    rating_class = rating.get('class')
-# rating_class será una lista como ['star-rating', 'One']
-#   print("Clases recuperadas:", rating_class)
-    match rating_class :
-         case ['star-rating', 'One']:
-             return 'Rating is 1/5'
-         case ['star-rating', 'Two']:
-             return 'Rating is 2/5'
-         case ['star-rating', 'Three']:
-             return 'Rating is 3/5'
-         case ['star-rating', 'Four']:
-             return 'Rating is 4/5'
-         case ['star-rating', 'Five']:
-             return 'Rating is 5/5'
-        
-         case _:
-               return'Not rating'
+    else:
+        rating_class = rating.get('class')
+        match rating_class :
+                case ['star-rating', 'One']:
+                    return 'Rating is 1/5'
+                case ['star-rating', 'Two']:
+                    return 'Rating is 2/5'
+                case ['star-rating', 'Three']:
+                    return 'Rating is 3/5'
+                case ['star-rating', 'Four']:
+                    return 'Rating is 4/5'
+                case ['star-rating', 'Five']:
+                    return 'Rating is 5/5'
+                case _:
+                    return'Not rating'
            
+           
+def find_table(soup):
+        table_data = {}
+        table_info = soup.find('table', class_="table")
+        if table_info is not None:
+            table_detail = table_info.find_all('tr')
+            for tr in table_detail:
+                th_detail = tr.find('th')
+                td_detail = tr.find('td')
+                if th_detail is not None and td_detail is not None:
+                    table_data[th_detail.get_text(strip=True)] = td_detail.get_text(strip=True)
+                else:
+                    return 'Not Raw'            
+            return table_data 
+        else:
+            return 'Not Table'
+    
 
-final_rating = findRating()
+def description_book(soup):
+        description_select = soup.select_one('article.product_page > p')
+        description_text = description_select.get_text(strip=True)
+        return description_text
+        
 
 
-#objeto tag
-table_info = soup.find('table', class_="table")
+def find_img(soup):
+    img_book = soup.select_one('#product_gallery img')
+    if img_book is not None :
+        img_src = img_book.get('src')
+        return img_src
+    else :
+        return 'Image indisponible' 
+        
 
-#lista de objetos
-infos_product = table_info.find_all('tr')
 
+url = "https://books.toscrape.com/catalogue/tipping-the-velvet_999/index.html"
 
-def table_info():
-for row in infos_product:
-    info_title = row.find('th')
-    info_detail = row.find('td')
-    print(f'{info_title.get_text(strip=True)} :  {info_detail.get_text(strip=True)}')   
+def get_info_book(url):
+    reponse = requests.get(url)
+    html_reponse = reponse.text
+    soup = BeautifulSoup(html_reponse, "html.parser")
+    # TODO: Récupérer toutes les infos
+    return {
+        'Title': find_title(soup),
+        'Category': find_category(soup),
+        'Rating': findRating(soup),
+        'Stock' : find_stock(soup),
+        'Description': description_book(soup),
+        'Tabla': find_table(soup),
+        'Img url': find_img(soup),
+    
+    }
+    
+    
+print(get_info_book(url))
+    
     
 
 
+def get_category_books_urls(category_url):
+    
+    print("Getting books urls ", category_url)
+
+    # TODO: Récupérer la dynamiquement la liste de tous les livres
+
+    return ["https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html", "https://books.toscrape.com/catalogue/tipping-the-velvet_999/index.html"]
 
 
-print('\n' + '\n' + '\n' + '\n' +  title_final)
-print('\n' + final_rating)
-print('\n' + description_text)
-print('\n' + final_stock + '\n')
-
-print(str(img_find))
 
 
-with open('infos.csv', 'w') as file:
-    if soup:
-        file.write("\n" + title_final.get_text(strip=True))
-        file.write("\n" + final_rating)  
-        file.write("\n" + final_stock.get_text(strip=True))
-        file.write("\n" + description_book[0].get_text(strip=True))
-        file.write("\n" + "Product Information : ")
-        file.write('\n' + "Espec is : " + detail_title.get_text(strip=True) + " : " + detail_info.get_text(strip=True))
-    else:
-        file.write("Pas de detail")
+def get_category_books_info(category_url):
+    print("Scraping category ", category_url)
+    books_info = []
+
+    for book_url in get_category_books_urls(category_url):
+       print("Scraping ", book_url)
+       books_info.append(get_info_book(book_url))
+    
+    return books_info
+
+category_url = "https://books.toscrape.com/catalogue/category/books/historical-fiction_4/index.html"
+
+print(get_category_books_info(category_url)) 
 
 
-print(f'\n\n\n\n' + str(final_rating))
+
+
+
+
+
+
+
 
 
 
 
 
        
+"""
+with open('infos.csv', 'w', newline='', encoding='utf-8') as file:
+    writer = csv.writer(file)
+    
+    if soup:
+        writer.writerow(["Title:", title_final])
+        writer.writerow(["Rating: ", final_rating])
+        writer.writerow(["Stock: ", final_stock])
+        writer.writerow(["Description: ", description_text])
+        writer.writerow(["Product Information: "])
+        
+        if table_info is not None:      
+            infos_product = table_info.find_all('tr')
+            for row in infos_product:
+                info_title = row.find('th').get_text(strip=True)
+                info_detail = row.find('td').get_text(strip=True)
+                writer.writerow([info_title, info_detail])
+        else:
+            writer.writerow(["Not detail product"])
+    else:
+        writer.writerow(["Pas de Book"])
 
-
-
-
-
-# iterar les items du tableau
-#for info_product in infos_product:
-#    print("\n This is .. " + str(info_product.get_text(strip=True)))
-#
-
-### NO SE CONCATENA ASI CON ELEMENTOS SOUP ###  detail_all  = detail_title + "" + detail_info
-
-
-
-
+"""
