@@ -112,28 +112,93 @@ def get_info_book(url):
         'Rating': findRating(soup),
         'Stock' : find_stock(soup),
         'Description': description_book(soup),
-        'Tabla': find_table(soup),
+        **find_table(soup),
         'Img url': find_img(soup),
     
     }
     
     
-print(get_info_book(url))
+#print(get_info_book(url))
     
     
+url = 'https://books.toscrape.com/'
+#RECUPERATION DE URL DES LES CATEGORIES
+def category_book_url(url):
+    reponse = requests.get(url)
+    html_reponse = reponse.text
+    soup = BeautifulSoup(html_reponse, "html.parser")
+    url = soup.select_one('ul.nav-list > li > ul ')
+    category_books =  {}
+    if url is not None:
+        url_li = url.find_all('li')
+        for url_single in url_li:
+            url_category = url_single.find('a')['href']
+            url_nom = url_single.get_text(strip=True)
+            if url_category is not None and url_nom is not None:
+                 category_books[url_nom] = url_category
+            else: 
+                return 'Not Category LI'
+        return category_books
+    else:
+        print('Pas de catégorie')
+        
+
+print(type(category_book_url()))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+
+def find_table(soup):
+        table_data = {}
+        table_info = soup.find('table', class_="table")
+        if table_info is not None:
+            table_detail = table_info.find_all('tr')
+            for tr in table_detail:
+                th_detail = tr.find('th')
+                td_detail = tr.find('td')
+                if th_detail is not None and td_detail is not None:
+                    table_data[th_detail.get_text(strip=True)] = td_detail.get_text(strip=True)
+                else:
+                    return 'Not Raw'            
+            return table_data 
+        else:
+            return 'Not Table'
+
+"""
+
+"""
+
+category_book_url(url)
 
 
 def get_category_books_urls(category_url):
+  
     
     print("Getting books urls ", category_url)
+    
 
     # TODO: Récupérer la dynamiquement la liste de tous les livres
 
     return ["https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html", "https://books.toscrape.com/catalogue/tipping-the-velvet_999/index.html"]
 
+"""
 
-
-
+"""
 def get_category_books_info(category_url):
     print("Scraping category ", category_url)
     books_info = []
@@ -144,15 +209,9 @@ def get_category_books_info(category_url):
     
     return books_info
 
-category_url = "https://books.toscrape.com/catalogue/category/books/historical-fiction_4/index.html"
 
 print(get_category_books_info(category_url)) 
-
-
-
-
-
-
+"""
 
 
 
