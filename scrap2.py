@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from pprint import pprint
 from urllib.parse import urljoin
+from scraptest import *
 
 url = 'https://books.toscrape.com/'
 response = requests.get(url)
@@ -11,6 +12,9 @@ soup =  BeautifulSoup(response.text , 'html.parser')
 
 #pprint(soup.prettify())
 #FIND ALL URL CATEGORY 
+
+
+
 def find_category(url):
         response = requests.get(url)
         soup =  BeautifulSoup(response.text , 'html.parser')
@@ -33,6 +37,8 @@ def find_category(url):
 #result = find_category(url)
 #print(type(result))  
 #print("\n".join(result))
+
+
 
 
 
@@ -84,6 +90,7 @@ def find_book_category(url):
 
 
 def find_book_category_url(url):
+        urls_books_single = []
         while url:
             response = requests.get(url)
             html_response = response.text
@@ -96,6 +103,7 @@ def find_book_category_url(url):
                     #title_book = title.find('a').get('title')
                     title_book = title.find('a').get('href')
                     title_url = urljoin(url, title_book )
+                    urls_books_single.append(title_url)
                     print(title_url)
             else:
                 print('Pas de livre de ce category')
@@ -108,11 +116,32 @@ def find_book_category_url(url):
             else:
                 url = None
             
+        return urls_books_single
             
             
             
-        
-        
                 
 url = "https://books.toscrape.com/catalogue/category/books/mystery_3/index.html"             
-find_book_category_url(url)        
+urls_book = find_book_category_url(url)        
+
+
+
+
+"""i = 0
+
+while i < len(urls_book):
+    book = get_info_book(urls_book[i])
+    i += i
+    print(book)
+    """
+### DEBEMOS BUSCAR LA FORMA DE QUE ITERE Y TRABAJE CON TODOS LOS URL,
+# ASI COMBINAMOS LAS FUNCIONES Y CONSEGUIMOS UN RESULTADO COMPLETO DE LOS URL DE LA CATEGORIAS Y DE TODOS LOS LIBROS LOS DETALLES            
+
+    
+for books_detail in urls_book:
+    print(f"Procesando URL: {books_detail}")  # Verifica cada URL
+    books_all = get_info_book(books_detail)
+    print(books_all)
+
+
+print(urls_book)

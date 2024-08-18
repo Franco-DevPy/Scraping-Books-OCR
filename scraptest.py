@@ -13,14 +13,17 @@ html_reponse = reponse.text
 soup = BeautifulSoup(html_reponse, "html.parser")
 """
 
-
+        
+        
+        
 def find_title(soup):
-        title= soup.find('h1')
-        title_Book  = title.get_text()
-        if title is not None:
-            return title_Book 
-        else:
-            return 'Not Title'
+    title = soup.find('h1')
+    if title:
+        return title.get_text(strip=True)
+    else:
+        print('No title found')
+        return 'Not Title'
+
 
 
 def find_category(soup):
@@ -99,7 +102,7 @@ def find_img(soup):
         
 
 
-url = "https://books.toscrape.com/catalogue/tipping-the-velvet_999/index.html"
+#url = "https://books.toscrape.com/catalogue/tipping-the-velvet_999/index.html"
 
 def get_info_book(url):
     reponse = requests.get(url)
@@ -108,18 +111,21 @@ def get_info_book(url):
     # TODO: Récupérer toutes les infos
     return {
         'Title': find_title(soup),
-        'Category': find_category(soup),
-        'Rating': findRating(soup),
-        'Stock' : find_stock(soup),
-        'Description': description_book(soup),
-        **find_table(soup),
-        'Img url': find_img(soup),
+        #'Category': find_category(soup),
+        #'Rating': findRating(soup),
+        #'Stock' : find_stock(soup),
+        #'Description': description_book(soup),
+        #**find_table(soup),
+        #'Img url': find_img(soup),
     
     }
     
     
 #print(get_info_book(url))
     
+    
+    
+"""    
     
 url = 'https://books.toscrape.com/'
 #RECUPERATION DE URL DES LES CATEGORIES
@@ -144,7 +150,7 @@ def category_book_url(url):
         
 
 print(type(category_book_url()))
-
+"""
 
 
 
