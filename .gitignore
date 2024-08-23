@@ -1,0 +1,19 @@
+# Ignorar archivos .log
+*.log
+
+# Ignorar archivos temporales de Python
+*.pyc
+__pycache__/
+
+# Ignorar archivos de configuración de tu entorno
+.env
+
+# Ignorar una carpeta específica
+carpeta_no_subir/
+
+
+# Ignorar la carpeta 'data' dentro de 'scraping'
+scraping/data/
+
+# Ignorar todos los archivos .txt
+scraping/*.txt
