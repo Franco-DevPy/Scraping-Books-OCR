@@ -1,8 +1,8 @@
+
 #SCRAP SINGLE PAG 
 
 from bs4 import BeautifulSoup
 import requests
-import csv
 
 
 """
@@ -13,9 +13,10 @@ html_reponse = reponse.text
 soup = BeautifulSoup(html_reponse, "html.parser")
 """
 
+#RECUPERATION SINGLE BOOK        
         
         
-        
+#RECUPERATION TITTLE SINGLE BOOK             
 def find_title(soup):
     title = soup.find('h1')
     if title:
@@ -25,7 +26,7 @@ def find_title(soup):
         return 'Not Title'
 
 
-
+#RECUPERATION CATEGORY SINGLE BOOK     
 def find_category(soup):
         category = soup.select('ul.breadcrumb li')[2]
         if category is not None:
@@ -34,7 +35,7 @@ def find_category(soup):
             return 'Not Category Book'
        
     
-
+#RECUPERATION STOCK SINGLE BOOK     
 def find_stock(soup):
     stock = soup.select_one('div.product_main > p.instock')
     if stock is not None :
@@ -45,7 +46,7 @@ def find_stock(soup):
     
     
     
-
+#RECUPERATION RATING SINGLE BOOK     
 def findRating(soup):
     rating = soup.select_one('p.star-rating') 
     # Verifica si el elemento existe
@@ -67,7 +68,7 @@ def findRating(soup):
                 case _:
                     return'Not rating'
            
-           
+#RECUPERATION TABLE INFO SINGLE BOOK                
 def find_table(soup):
         table_data = {}
         table_info = soup.find('table', class_="table")
@@ -84,14 +85,14 @@ def find_table(soup):
         else:
             return 'Not Table'
     
-
+#RECUPERATION DESCRIPTION SINGLE BOOK     
 def description_book(soup):
         description_select = soup.select_one('article.product_page > p')
         description_text = description_select.get_text(strip=True)
         return description_text
         
 
-
+#RECUPERATION IMAGEN SINGLE BOOK     
 def find_img(soup):
     img_book = soup.select_one('#product_gallery img')
     if img_book is not None :
@@ -104,11 +105,13 @@ def find_img(soup):
 
 #url = "https://books.toscrape.com/catalogue/tipping-the-velvet_999/index.html"
 
+
+
+# RETURN SINGLE BOOK
 def get_info_book(url):
     reponse = requests.get(url)
     html_reponse = reponse.text
     soup = BeautifulSoup(html_reponse, "html.parser")
-    # TODO: Récupérer toutes les infos
     return {
         'Title': find_title(soup),
         #'Category': find_category(soup),
@@ -151,14 +154,6 @@ def category_book_url(url):
 
 print(type(category_book_url()))
 """
-
-
-
-
-
-
-
-
 
 
 
