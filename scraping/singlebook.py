@@ -94,7 +94,7 @@ def description_book(soup):
 
 
 
-"""
+
 def find_img(soup):
     url_base = "https://books.toscrape.com/"
     title = soup.find('h1').get_text(strip=True)
@@ -110,7 +110,7 @@ def find_img(soup):
             return url_img_aboslut
     else :
         return 'Image indisponible' 
-        """
+
 
 
 
@@ -126,7 +126,6 @@ def get_info_book(url):
         'Stock' : find_stock(soup),
         'Description': description_book(soup),
         **find_table(soup),
-        #'Img url': find_img(soup),
+        'Img url': find_img(soup),
     
     }
-    
