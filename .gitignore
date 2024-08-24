@@ -13,7 +13,11 @@ carpeta_no_subir/
 
 
 # Ignorar la carpeta 'data' dentro de 'scraping'
-scraping/data/
+scraping/data/csv/*.csv
 
 # Ignorar todos los archivos .txt
 scraping/*.txt
+
+
+# Ignorar todos los archivos .txt
+scraping/data/img/*.jpg

@@ -82,17 +82,53 @@ def all_book_for_category():
                 else:
                     category_url = None       
             # 4. Guardar los libros en un archivo CSV
-            with open(f"data/{title_book_h}.txt", "w") as file:
+            with open(f"data/{title_book_h}.csv", "w", newline="", encoding="utf-8") as fichier_csv:
+                writer = csv.writer(fichier_csv, delimiter=',')
+                # Escribir los encabezados si es necesario
+                writer.writerow(["Title", "Category", "Rating", "Stock", "Description", "UPC", "Product Type", "Price (excl. tax)", "Price (incl. tax)", "Tax", "Availability", "Number of reviews", "Img url"])
+                
                 for url_book in urls_books_single:
                     books_all = get_info_book(url_book)
-                    file.write(f"{books_all}\n")
+                    # Escribe cada valor del diccionario como una fila
+                    writer.writerow(books_all.values())
+
                     
                             
 
 all_book_for_category()
 
         
+        
+        
+
+   
 """
+                
+                
+ with open(f"data/{title_book_h}.txt", "w") as file:
+                for url_book in urls_books_single:
+                    books_all = get_info_book(url_book)
+                    file.write(f"{books_all}\n")
+                    """
+                    
+# Créer un objet writer (écriture) avec ce fichier
+
+
+# Parcourir les titres et descriptions - zip permet d'itérer sur deux listes ou plus à la fois
+               
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+"""
+
+
 
 def find_next_button(url):
         next_url = ""

@@ -2,8 +2,9 @@
 
 from bs4 import BeautifulSoup
 import requests
+from urllib.parse import urljoin
 import csv
-
+import re
 
 """
 URL_BASE = "https://books.toscrape.com/catalogue/tipping-the-velvet_999/index.html"
@@ -92,11 +93,21 @@ def description_book(soup):
         
 
 
+
+
 def find_img(soup):
+    url_base = "https://books.toscrape.com/"
+    title = soup.find('h1').get_text(strip=True)
+    title = re.sub(r'[\\/*?:"<>|]', "", title)
+    img_book = soup.select_one('#product_gallery img')
     img_book = soup.select_one('#product_gallery img')
     if img_book is not None :
         img_src = img_book.get('src')
-        return img_src
+        url_img_aboslut = urljoin(url_base, img_src)
+        url_content = requests.get(url_img_aboslut)
+        with open(f"data/img/{title}.jpg", "wb") as fichie_img:
+            fichie_img.write(url_content.content)
+            return url_img_aboslut
     else :
         return 'Image indisponible' 
         
@@ -111,12 +122,12 @@ def get_info_book(url):
     soup = BeautifulSoup(html_reponse, "html.parser")
     return {
         'Title': find_title(soup),
-        #'Category': find_category(soup),
-        #'Rating': findRating(soup),
-        #'Stock' : find_stock(soup),
-        #'Description': description_book(soup),
-        #**find_table(soup),
-        #'Img url': find_img(soup),
+        'Category': find_category(soup),
+        'Rating': findRating(soup),
+        'Stock' : find_stock(soup),
+        'Description': description_book(soup),
+        **find_table(soup),
+        'Img url': find_img(soup),
     
     }
     
