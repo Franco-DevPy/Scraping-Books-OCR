@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-from pprint import pprint
 from urllib.parse import urljoin
 from scraping.singlebook import get_info_book
 import csv
