@@ -19,22 +19,26 @@ L'objectif de cette application est d'automatiser la collecte de données du sit
 
 ### Étapes
 
-1. **Cloner le dépôt**
 
+
+1. **Cloner le dépôt**
    ```bash
    git clone https://github.com/Franco-DevPy/Scraping-Books-OCR.git
    ```
 
-2. **Aller dans le répertoire du projet**
 
+2. **Aller dans le répertoire du projet**
    ```bash
    cd Scraping-Books-OCR
+
    ```
 
-3. **Cree un environement virtuel**
+
+3. **Créer un environement virtuel**
    ```bash
    python -m venv venv
    ```
+   
 
 4. **Activer l'environement**
    # Windows
@@ -46,7 +50,6 @@ L'objectif de cette application est d'automatiser la collecte de données du sit
    source env/bin/activate
    ```
    # Quitter l'environement
-
    ```bash
    # Windows and Linux
    deactivate
@@ -66,9 +69,7 @@ L'objectif de cette application est d'automatiser la collecte de données du sit
 
 
 
-
 Le script extraira les informations des livres et les enregistrera dans des fichiers CSV sous le répertoire scraping/data/csv/. Les images des livres seront téléchargées dans le répertoire scraping/data/img/.
-
 
 
 ### Structure du Projet
@@ -78,5 +79,4 @@ scraping/categories.py : Contient les fonctions pour récupérer les URL des cat
 scraping/singlebook.py : Contient les fonctions pour extraire les informations spécifiques à chaque livre.
 scraping/data/csv/ : Dossier où seront stockés les fichiers CSV générés.
 scraping/data/img/ : Dossier où seront stockées les images téléchargées.
-
 
