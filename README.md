@@ -23,13 +23,13 @@ L'objectif de cette application est d'automatiser la collecte de données du sit
 1. **Cloner le dépôt**
 
    ```bash
-   git clone https://github.com/Franco-DevPy/scrapTRY.git
+   git clone https://github.com/Franco-DevPy/Scraping-Books-OCR.git
 
 
 2. **Aller dans le répertoire du projet**
 
    ```bash
-   cd scrapTRY
+   cd Scraping-Books-OCR
 
 
 
@@ -39,11 +39,9 @@ L'objectif de cette application est d'automatiser la collecte de données du sit
 
 
 
-### Utilisation
-
 4. **Pour exécuter le script principal et lancer le scraping, utilisez la commande suivante :**
    ```bash
-    pip install -r requirements.txt
+    py main.py
 
 
 Le script extraira les informations des livres et les enregistrera dans des fichiers CSV sous le répertoire scraping/data/csv/. Les images des livres seront téléchargées dans le répertoire scraping/data/img/.
