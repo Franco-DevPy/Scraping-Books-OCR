@@ -6,7 +6,6 @@ import csv
 import os
 
 
-#FIND ALL URL CATEGORY 
 
 def find_category(soup):
         url = "https://books.toscrape.com/"
@@ -15,15 +14,11 @@ def find_category(soup):
         aside = soup.find('aside')
         aside_category = aside.find('div', class_="side_categories")
         links = aside_category.find_all('a')
-        #categories_title =  [category.text.strip() for category in links[1:]]
         categories_url =  [category['href'] for category in links[1:]]
-        #for categorie_title ,category_url in zip(categories_title, categories_url):
         for category_url in  categories_url:
             url_absolut = urljoin(url, category_url)
             urls_absolutes.append(url_absolut)
             nmb += 1
-            #print('URLS DES CATEGORIES: ', nmb )        
-            #print(categorie_title, url_absolut)
 
         return urls_absolutes 
 
