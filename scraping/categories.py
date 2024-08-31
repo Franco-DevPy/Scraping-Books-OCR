@@ -35,11 +35,8 @@ def all_book_for_category(urls_all_category):
         os.makedirs("scraping/data/csv", exist_ok=True)
         categories = urls_all_category
         for category_url in categories:
-            # 2. Inicializar la lista de libros
             urls_books_single = []
-            # 3. Mientras haya una página
             while category_url:
-                # 3a. Buscar los libros en la página actual
                 url = category_url
                 response = requests.get(url)
                 html_response = response.text
@@ -53,17 +50,14 @@ def all_book_for_category(urls_all_category):
                     final_url = urljoin(url, title_href )
                     urls_books_single.append(final_url)
                 
-                # 3b. Verificar si hay un botón "next"
                 next_button = soup.find('li', class_="next")
                 if next_button is not None:
                     href_button = next_button.find('a').get('href')
                     category_url = urljoin(url, href_button)
                 else:
                     category_url = None       
-            # 4. Guardar los libros en un archivo CSV
             with open(f"scraping/data/csv/{title_book_h}.csv", "w", newline="", encoding="utf-8") as fichier_csv:
                 writer = csv.writer(fichier_csv, delimiter=',')
-                # Escribir los encabezados si es necesario
                 writer.writerow(["Title", "Category", "Rating", "Stock", "Description", "UPC", "Product Type", "Price (excl. tax)", "Price (incl. tax)", "Tax", "Availability", "Number of reviews", "Img url"])
                 
                 for url_book in urls_books_single:
