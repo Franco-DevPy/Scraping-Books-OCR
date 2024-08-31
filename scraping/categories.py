@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 from scraping.singlebook import get_info_book
 import csv
-
+import os
 
 
 #FIND ALL URL CATEGORY 
@@ -32,6 +32,7 @@ def find_category(soup):
 
 
 def all_book_for_category(urls_all_category):
+        os.makedirs("scraping/data/csv", exist_ok=True)
         categories = urls_all_category
         for category_url in categories:
             # 2. Inicializar la lista de libros
