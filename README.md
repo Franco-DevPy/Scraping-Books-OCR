@@ -27,9 +27,12 @@ L'objectif de cette application est d'automatiser la collecte de données du sit
 
 2. **Cloner le dépôt Git** 
   ```bash
-    git clone https://github.com/Franco-DevPy/Scraping-Books-OCR.git
-    cd Scraping-Books-OCR
+git clone https://github.com/Franco-DevPy/Scraping-Books-OCR.git
    ```
+
+
+    cd Scraping-Books-OCR
+
 
 3. **Créer un environement virtuel**
    ```bash
@@ -43,7 +46,8 @@ L'objectif de cette application est d'automatiser la collecte de données du sit
 Windows PowerShell:
    ```bash
    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-
+ ```
+ ```bash
    .\venv\Scripts\activate
    ```
 Linux
