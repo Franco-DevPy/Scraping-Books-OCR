@@ -3,6 +3,8 @@ import requests
 from urllib.parse import urljoin
 import csv
 import re
+import os
+
 
 """
 URL_BASE = "https://books.toscrape.com/catalogue/tipping-the-velvet_999/index.html"
@@ -96,6 +98,7 @@ def description_book(soup):
 
 
 def find_img(soup):
+    os.makedirs("scraping/data/img", exist_ok=True)    
     url_base = "https://books.toscrape.com/"
     title = soup.find('h1').get_text(strip=True)
     title = re.sub(r'[\\/*?:"<>|]', "", title)
