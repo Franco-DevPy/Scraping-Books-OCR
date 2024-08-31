@@ -22,11 +22,14 @@ L'objectif de cette application est d'automatiser la collecte de données du sit
 
 
 
-1. **Télécharger et extraire Scraping-Books-OCR-master.zip**
+1. **Ouvrir un terminal : "Bash ou PowerShell"**
    
 
-2. **Ouvrir un terminal : "Bash ou PowerShell"**
- 
+2. **Cloner le dépôt Git** 
+  ```bash
+    git clone https://github.com/Franco-DevPy/Scraping-Books-OCR.git
+    cd Scraping-Books-OCR
+   ```
 
 3. **Créer un environement virtuel**
    ```bash
