@@ -17,22 +17,16 @@ L'objectif de cette application est d'automatiser la collecte de données du sit
 
 - Python 3.x installé sur votre machine.
 
+
 ### Étapes
 
 
 
-1. **Cloner le dépôt**
-   ```bash
-   git clone https://github.com/Franco-DevPy/Scraping-Books-OCR.git
-   ```
+1. **Télécharger et extraire Scraping-Books-OCR-master.zip**
+   
 
-
-2. **Aller dans le répertoire du projet**
-   ```bash
-   cd Scraping-Books-OCR
-
-   ```
-
+2. **Ouvrir un terminal : "Bash ou PowerShell"**
+ 
 
 3. **Créer un environement virtuel**
    ```bash
@@ -41,15 +35,19 @@ L'objectif de cette application est d'automatiser la collecte de données du sit
    
 
 4. **Activer l'environement**
-   # Windows
+
+
+Windows PowerShell:
    ```bash
+   Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
    .\venv\Scripts\activate
    ```
-   # Linux
+Linux
    ```bash
    source env/bin/activate
    ```
-   # Quitter l'environement
+Quitter l'environement
    ```bash
    # Windows and Linux
    deactivate
@@ -79,4 +77,3 @@ scraping/categories.py : Contient les fonctions pour récupérer les URL des cat
 scraping/singlebook.py : Contient les fonctions pour extraire les informations spécifiques à chaque livre.
 scraping/data/csv/ : Dossier où seront stockés les fichiers CSV générés.
 scraping/data/img/ : Dossier où seront stockées les images téléchargées.
-
