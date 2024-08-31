@@ -6,15 +6,6 @@ import re
 import os
 
 
-"""
-URL_BASE = "https://books.toscrape.com/catalogue/tipping-the-velvet_999/index.html"
-reponse = requests.get(URL_BASE)
-html_reponse = reponse.text
-
-soup = BeautifulSoup(html_reponse, "html.parser")
-"""
-
-        
 #RECUPERATION SINGLE BOOK        
         
 def find_title(soup):
